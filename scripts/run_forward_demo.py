@@ -24,7 +24,7 @@ OUTPUTS = ROOT / "outputs"
 
 def main() -> None:
     OUTPUTS.mkdir(parents=True, exist_ok=True)
-    n = 64
+    n = 256
     geom = ConeBeamGeometry(
         dso=2.0,
         dsd=4.0,
@@ -62,6 +62,18 @@ def main() -> None:
         angles=geom.angles(),
         volume=volume,
     )
+
+    # 尝试将模体保存为 NIfTI（如果可用）以便 3D 可视化 / 互操作
+    try:
+        import nibabel as nib  # type: ignore
+
+        affine = np.eye(4)
+        # 保存为 float32，文件名为 phantom.nii.gz
+        nifti_path = OUTPUTS / "phantom.nii.gz"
+        nib.save(nib.Nifti1Image(volume.astype(np.float32), affine), nifti_path)
+        print(f"Wrote {nifti_path}")
+    except Exception:
+        print("nibabel not available: to save NIfTI install with 'pip install nibabel'")
 
     plt.figure(figsize=(6, 5))
     plt.imshow(proj[0], cmap="gray", origin="lower")

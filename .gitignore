@@ -10,3 +10,4 @@ dist/
 build/
 outputs/*
 !outputs/.gitkeep
+.vscode/
