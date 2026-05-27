@@ -40,8 +40,53 @@ python -m pytest tests/ -v
 python -m pytest tests/ --cov=cbct_siddon --cov-report=term-missing
 
 # 演示：模体切片 + 锥束投影 + 验收日志
+
+# 体模生成
+
+python scripts/generate_phantom.py --size 128
+# 模体切片 + 锥束投影 + 验收日志
 python scripts/run_forward_demo.py
 ```
+
+## 可运行脚本（新增）
+
+### 1) 单射线线积分（源在上方）
+
+```bash
+python scripts/line_integral_overhead.py --use-phantom --n 64 --s_z 3.0 --p 0.1 0.0 -1.0
+```
+
+### 2) Siddon 线性缩放实验（O(N)）
+
+```bash
+python scripts/siddon_scaling_experiment.py
+```
+
+可选：
+
+```bash
+python scripts/siddon_scaling_experiment.py --n-vals 20,40,60,80,100 --grid-size 21 --s-z 3.0 --fit
+```
+
+### 3) 单角度锥束正投影
+
+```bash
+python scripts/cone_beam_single_angle.py
+```
+
+可选（更小尺寸快速验证）：
+
+```bash
+python scripts/cone_beam_single_angle.py --n 32 --det-rows 32 --det-cols 32 --det-pixel-size 0.05
+```
+
+### 4) 360° 锥束正投影（多角度）
+
+```bash
+python scripts/cone_beam_360.py --n 32 --rows 32 --cols 32 --step 30 --preview
+```
+
+> 提示：角度数量与探测器分辨率会显著影响耗时，建议先用小尺寸验证。
 
 产物目录 [`outputs/`](outputs/)：
 

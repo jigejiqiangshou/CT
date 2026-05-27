@@ -24,7 +24,7 @@ OUTPUTS = ROOT / "outputs"
 
 def main() -> None:
     OUTPUTS.mkdir(parents=True, exist_ok=True)
-    n = 64
+    n = 256
     geom = ConeBeamGeometry(
         dso=2.0,
         dsd=4.0,
